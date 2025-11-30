@@ -3,7 +3,7 @@
 # dependencies
 /node_modules
 /.pnp
-.pnp.*
+.pnp.*Next.js explicitly reports a prerender error for 
 .yarn/*
 !.yarn/patches
 !.yarn/plugins

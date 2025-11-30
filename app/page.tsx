@@ -1,6 +1,8 @@
 import DiscountCardsServer from '@/components/DiscountCardsServer'
 import DiscountCardsClient from '@/components/DiscountCardsClient'
 
+export const dynamic = 'force-dynamic'
+
 export default function Home() {
   return (
     <div className="min-h-screen bg-zinc-50 font-sans dark:bg-black">
