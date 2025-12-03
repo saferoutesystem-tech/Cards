@@ -1,13 +1,12 @@
 "use client";
 import { useState, useCallback, useRef, useEffect } from "react";
-// import { supabase } from "../lib/supabase";
 import { createClient } from "@/lib/supabase/client";
 import { LocationItem } from "../utils/types";
 import ProjectCard from "./ProjectCard";
 import ProjectModal from "./ProjectModal";
+import Image from "next/image";
 
 export default function FeaturedProjects() {
-  const supabase = createClient();
   const [projects, setProjects] = useState<LocationItem[]>([]);
   const [visibleCount, setVisibleCount] = useState(9);
   const [selectedProject, setSelectedProject] = useState<LocationItem | null>(
@@ -17,22 +16,22 @@ export default function FeaturedProjects() {
   const [error, setError] = useState<string | null>(null);
   const observerTarget = useRef<HTMLDivElement>(null);
 
-  // Fetch projects from Supabase
+  // Fetch projects from Supabase - now inside useEffect to ensure client-side only
   useEffect(() => {
     async function fetchProjects() {
       try {
         setLoading(true);
+        const supabase = createClient();
         const { data, error } = await supabase
           .from("projects")
           .select(
             "id, name, place, google_map_location, phone_number, category, priority_level, image_url, description"
           )
-          .order("priority_level", { ascending: true }) // Lower priority_level = higher priority
+          .order("priority_level", { ascending: true })
           .order("created_at", { ascending: false });
 
         if (error) throw error;
 
-        // Data already matches LocationItem interface
         setProjects(data || []);
       } catch (err) {
         setError(
@@ -118,11 +117,17 @@ export default function FeaturedProjects() {
   }
 
   return (
-    <section className="min-h-screen bg-gray-50 py-16 px-4 sm:px-6 lg:px-8">
+    <section className="min-h-screen bg-gray-50 pb-16 px-4 sm:px-6 lg:px-8">
       <div className="max-w-7xl mx-auto">
-        <h1 className="text-4xl font-extrabold text-center mb-12 text-gray-900">
-          Featured Projects
-        </h1>
+        <Image
+          src={"/logo.png"}
+          width={200}
+          height={100}
+          className="mx-auto"  
+          alt="Cardly"
+          sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+          loading="lazy"
+        />
 
         <div className="grid gap-8 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
           {projects.slice(0, visibleCount).map((item) => (
@@ -130,7 +135,6 @@ export default function FeaturedProjects() {
           ))}
         </div>
 
-        {/* Loading Spinner for infinite scroll */}
         {visibleCount < projects.length && (
           <div
             ref={observerTarget}

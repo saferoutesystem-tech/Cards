@@ -1,3 +1,5 @@
+"use client";
+
 import { createBrowserClient } from "@supabase/ssr";
 
 export function createClient() {
@@ -24,19 +26,4 @@ export function createClient() {
       },
     }
   );
-}
-
-// Types for database
-export interface Project {
-  id: string;
-  name: string;
-  place: string;
-  google_map_location: string | null;
-  phone_number: string | null;
-  category: string[];
-  priority_level: number;
-  image_url: string | null;
-  description: string | null;
-  created_at: string;
-  updated_at: string;
 }

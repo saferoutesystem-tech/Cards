@@ -1,5 +1,6 @@
 "use client";
 import { useEffect } from "react";
+import Image from "next/image";
 import { LocationItem } from "../utils/types";
 
 interface ProjectModalProps {
@@ -41,14 +42,17 @@ export default function ProjectModal({ project, onClose }: ProjectModalProps) {
         >
           ✕
         </button>
-
         {project.image_url && (
-          <img
-            src={project.image_url}
-            alt={project.name}
-            className="w-full h-64 sm:h-80 object-cover"
-          />
+          <div className="w-full h-64 sm:h-80 relative">
+            <Image
+              src={project.image_url}
+              alt={project.name}
+              fill
+              className="object-cover"
+            />
+          </div>
         )}
+        
 
         <div className="p-6 sm:p-8 space-y-6">
           <div>

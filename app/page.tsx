@@ -1,5 +1,5 @@
-import DiscountCardsServer from "@/components/DiscountCardsServer";
-import DiscountCardsClient from "@/components/DiscountCardsClient";
+// import DiscountCardsServer from "@/components/DiscountCardsServer";
+// import DiscountCardsClient from "@/components/DiscountCardsClient";
 import FeaturedProjects from "@/components/FeaturedProjects";
 
 export const dynamic = "force-dynamic";
