@@ -1,4 +1,4 @@
-import ActivateCardForm from "@/components/ActivateCard";
+import ActivateCard from "@/components/ActivateCard";
 import { createClient } from "@/lib/supabase/server";
 
 export default async function VerifyPage({
@@ -54,7 +54,7 @@ function resultUI(id: string, isActive: boolean) {
         <p className="text-white">Status: {isActive ? "Active" : "Inactive"}</p>
       </div> */}
       {!isActive ? (
-        <ActivateCardForm cardId={id} />
+        <ActivateCard cardId={id} />
       ) : (
         <div className="p-6 rounded-lg shadow-md max-w-sm w-full bg-green-500">
           <h2 className="text-xl font-bold mb-4 text-white">Verification</h2>

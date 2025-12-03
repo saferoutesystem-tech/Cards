@@ -4,7 +4,7 @@ import { useState } from "react";
 import { createClient } from "@/lib/supabase/client";
 import { User, Phone, MapPin, CheckCircle2, AlertCircle } from "lucide-react";
 
-export default function ActivateCardForm({ cardId }: { cardId: string }) {
+export default function ActivateCard({ cardId }: { cardId: string }) {
   const supabase = createClient();
 
   const [name, setName] = useState("");
