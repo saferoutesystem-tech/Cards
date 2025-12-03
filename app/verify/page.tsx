@@ -1,11 +1,17 @@
 "use client";
 
+import { use } from "react";
 import { useEffect, useState } from "react";
 import { createBrowserClient } from "@supabase/ssr";
 import ActivateCard from "@/components/ActivateCard";
 
-export default function VerifyPage({ searchParams }: any) {
-  const id = searchParams?.id as string;
+export default function VerifyPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
+}) {
+  const params = use(searchParams);
+  const id = params?.id as string;
 
   const [loading, setLoading] = useState(true);
   const [cardData, setCardData] = useState<null | { active: boolean }>(null);
@@ -42,13 +48,8 @@ export default function VerifyPage({ searchParams }: any) {
     load();
   }, [id]);
 
-  if (loading) {
-    return uiContainer(<p className="text-white">Loading…</p>);
-  }
-
-  if (error) {
-    return errorUI(error);
-  }
+  if (loading) return uiContainer(<p className="text-white">Loading…</p>);
+  if (error) return errorUI(error);
 
   return resultUI(id, cardData!.active);
 }
@@ -76,16 +77,18 @@ function errorUI(message: string) {
 
 function resultUI(id: string, isActive: boolean) {
   return (
-    <div className="min-h-screen flex items-center justify-center bg-zinc-50 dark:bg-black">
+    <>
       {!isActive ? (
         <ActivateCard cardId={id} />
       ) : (
-        <div className="p-6 rounded-lg shadow-md max-w-sm w-full bg-green-500">
-          <h2 className="text-xl font-bold mb-4 text-white">Verification</h2>
-          <p className="text-white">Card ID: {id}</p>
-          <p className="text-white">Status: Active</p>
+        <div className="min-h-screen flex items-center justify-center bg-zinc-50 dark:bg-black">
+          <div className="p-6 rounded-lg shadow-md max-w-sm w-full bg-green-500">
+            <h2 className="text-xl font-bold mb-4 text-white">Verification</h2>
+            <p className="text-white">Card ID: {id}</p>
+            <p className="text-white">Status: Active</p>
+          </div>
         </div>
       )}
-    </div>
+    </>
   );
 }
