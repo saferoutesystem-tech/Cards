@@ -9,7 +9,7 @@ export default function ActivateCard({ cardId }: { cardId: string }) {
 
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
-  const [location, setLocation] = useState("");
+  const [resident, setResident] = useState("");
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState("");
   const [success, setSuccess] = useState(false);
@@ -32,10 +32,10 @@ export default function ActivateCard({ cardId }: { cardId: string }) {
       return false;
     }
 
-    // Location: must not be empty and reasonable length
-    if (location.trim().length === 0 || location.trim().length > 200) {
+    // resident: must not be empty and reasonable length
+    if (resident.trim().length === 0 || resident.trim().length > 200) {
       setMessage(
-        "Location must not be empty and must be less than 200 characters."
+        "resident must not be empty and must be less than 200 characters."
       );
       return false;
     }
@@ -57,7 +57,7 @@ export default function ActivateCard({ cardId }: { cardId: string }) {
       .update({
         name,
         phone,
-        location,
+        resident,
         active: true,
       })
       .eq("card_id", cardId);
@@ -156,9 +156,9 @@ export default function ActivateCard({ cardId }: { cardId: string }) {
                 </div>
                 <input
                   type="text"
-                  value={location}
+                  value={resident}
                   maxLength={200}
-                  onChange={(e) => setLocation(e.target.value)}
+                  onChange={(e) => setResident(e.target.value)}
                   className="w-full pl-10 pr-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all outline-none"
                   placeholder="City, neighborhood, or area"
                   required
