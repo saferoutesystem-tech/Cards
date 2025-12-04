@@ -58,7 +58,7 @@ const ProjectCard = memo(function ProjectCard({
         {item.priority_level === 1 && (
           <div className="absolute right-3 top-3">
             <span className="inline-flex items-center gap-1 rounded-full bg-[#1b447a] px-3 py-1 text-[11px] font-semibold uppercase tracking-wide text-white shadow-md shadow-[#1b447a]/40">
-              <span className="h-1.5 w-1.5 rounded-full bg-white shadow-[0_0_0_3px_rgba(250,250,249,0.4)]" />
+              <span className="h-1 w-1 rounded-full bg-white shadow-[0_0_0_3px_rgba(250,250,249,0.4)] animate-ping" />
               Featured
             </span>
           </div>

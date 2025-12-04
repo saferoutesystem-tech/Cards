@@ -267,7 +267,7 @@ export default function CardHolderProfile({
           </div>
 
           {/* Action Buttons */}
-          <div className="bg-gray-100 px-8 py-6 border-t border-gray-200">
+          {/* <div className="bg-gray-100 px-8 py-6 border-t border-gray-200">
             <div className="flex flex-col sm:flex-row gap-4">
               <button
                 onClick={() => (window.location.href = `tel:${profile.phone}`)}
@@ -284,7 +284,7 @@ export default function CardHolderProfile({
                 Print Profile
               </button>
             </div>
-          </div>
+          </div> */}
         </div>
 
         {/* Footer */}

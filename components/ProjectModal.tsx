@@ -26,24 +26,25 @@ export default function ProjectModal({ project, onClose }: ProjectModalProps) {
   }, [onClose]);
 
   return (
+    // hide scrollbar but allow scrolling
     <div
-      className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm transition-opacity"
+      className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm transition-opacity "
       onClick={onClose}
     >
       <div
-        className="bg-white rounded-2xl w-full max-w-4xl max-h-[90vh] overflow-y-auto shadow-2xl relative animate-in fade-in zoom-in-95 duration-200"
+        className="bg-white rounded-2xl w-full max-w-4xl max-h-[90vh] overflow-y-auto shadow-2xl relative scrollbar-hide"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Close Button */}
         <button
           onClick={onClose}
-          className="absolute top-4 right-4 z-10 bg-white/80 p-2 rounded-full hover:bg-gray-100 transition-colors"
+          className="absolute top-4 right-4 z-10 bg-white/80 p-2 rounded-full hover:bg-gray-100 transition-colors w-10 h-10 flex items-center justify-center text-[#1b447a] hover:text-gray-800"
           aria-label="Close modal"
         >
           ✕
         </button>
         {project.image_url && (
-          <div className="w-full h-64 sm:h-80 relative">
+          <div className="w-full h-64 sm:h-80 relative overflow-hidden rounded-t-2xl">
             <Image
               src={project.image_url}
               alt={project.name}
@@ -52,7 +53,6 @@ export default function ProjectModal({ project, onClose }: ProjectModalProps) {
             />
           </div>
         )}
-        
 
         <div className="p-6 sm:p-8 space-y-6">
           <div>
@@ -60,22 +60,23 @@ export default function ProjectModal({ project, onClose }: ProjectModalProps) {
               {project.category.map((cat, index) => (
                 <span
                   key={index}
-                  className="bg-blue-100 text-blue-700 text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wide"
+                  className="rounded-full bg-white/92 px-2.5 py-1 text-[11px] font-semibold uppercase tracking-wide text-sky-700 shadow-sm ring-1 ring-sky-100"
                 >
                   {cat}
                 </span>
               ))}
               {project.priority_level === 1 && (
-                <span className="bg-red-100 text-red-700 text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wide">
+                <span className="inline-flex items-center gap-1 rounded-full bg-[#1b447a] px-3 py-1 text-[11px] font-semibold uppercase tracking-wide text-white shadow-md shadow-[#1b447a]/40">
+                  <span className="h-1.5 w-1.5 rounded-full bg-white shadow-[0_0_0_3px_rgba(250,250,249,0.4)]" />
                   Featured
                 </span>
               )}
             </div>
-            <h2 className="text-3xl font-bold text-gray-900 mb-4">
+            <h2 className="text-3xl font-bold text-[#1b447a] mt-4 mb-2">
               {project.name}
             </h2>
 
-            <div className="space-y-2">
+            <div className="space-y-2 text-sm">
               <div className="flex items-center gap-2 text-gray-600">
                 <span className="font-semibold">📍 Location:</span>
                 <span>{project.place}</span>
@@ -83,7 +84,7 @@ export default function ProjectModal({ project, onClose }: ProjectModalProps) {
 
               {project.phone_number && (
                 <div className="flex items-center gap-2 text-gray-600">
-                  <span className="font-semibold">📞 Phone:</span>
+                  <span className="font-semibold">📞 Phone: </span>
                   <a
                     href={`tel:${project.phone_number}`}
                     className="text-blue-600 hover:underline"
@@ -103,9 +104,9 @@ export default function ProjectModal({ project, onClose }: ProjectModalProps) {
 
           {project.google_map_location && (
             <div className="bg-gray-50 p-4 rounded-xl border border-gray-200">
-              <h4 className="font-semibold text-gray-700 mb-3">
+              {/* <h4 className="font-semibold text-gray-700 mb-3">
                 Project Location
-              </h4>
+              </h4> */}
               <div className="w-full h-64 rounded-lg overflow-hidden bg-gray-200 relative">
                 <iframe
                   width="100%"
