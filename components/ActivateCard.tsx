@@ -82,7 +82,7 @@ export default function ActivateCard({ cardId }: { cardId: string }) {
         {/* Card Container */}
         <div className="bg-white rounded-2xl shadow-2xl overflow-hidden">
           {/* Header with Gradient */}
-          <div className="bg-gradient-to-r from-blue-600 to-purple-600 p-8 text-white">
+          <div className="bg-gradient-to-r from-blue-900 to-[#1b447a] p-8 text-white">
             <div className="flex items-center justify-center mb-4">
               <div className="w-16 h-16 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center">
                 <CheckCircle2 className="w-8 h-8" />
@@ -173,7 +173,7 @@ export default function ActivateCard({ cardId }: { cardId: string }) {
             <button
               type="submit"
               disabled={loading}
-              className="w-full py-3.5 rounded-xl bg-gradient-to-r from-blue-600 to-purple-600 text-white font-semibold shadow-lg hover:shadow-xl transform hover:scale-[1.02] transition-all disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none flex items-center justify-center gap-2"
+              className="w-full py-3.5 rounded-xl bg-gradient-to-r from-blue-700 to-[#1b447a] text-white font-semibold shadow-lg hover:shadow-xl transform hover:scale-[1.02] transition-all disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none flex items-center justify-center gap-2"
             >
               {loading ? (
                 <>

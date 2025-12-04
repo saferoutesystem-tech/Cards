@@ -4,6 +4,14 @@ import { use } from "react";
 import { useEffect, useState } from "react";
 import { createBrowserClient } from "@supabase/ssr";
 import ActivateCard from "@/components/ActivateCard";
+import CardHolderProfile from "@/components/CardHolderProfile";
+
+interface CardData {
+  active: boolean;
+  name?: string;
+  phone?: string;
+  resident?: string;
+}
 
 export default function VerifyPage({
   searchParams,
@@ -14,7 +22,7 @@ export default function VerifyPage({
   const id = params?.id as string;
 
   const [loading, setLoading] = useState(true);
-  const [cardData, setCardData] = useState<null | { active: boolean }>(null);
+  const [cardData, setCardData] = useState<CardData | null>(null);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
@@ -30,9 +38,10 @@ export default function VerifyPage({
         process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
       );
 
+      // Fetch all data including profile fields
       const { data, error } = await supabase
         .from("discount_cards")
-        .select("active")
+        .select("active, name, phone, resident")
         .eq("card_id", id)
         .single();
 
@@ -51,7 +60,7 @@ export default function VerifyPage({
   if (loading) return uiContainer(<p className="text-white">Loading…</p>);
   if (error) return errorUI(error);
 
-  return resultUI(id, cardData!.active);
+  return resultUI(id, cardData!);
 }
 
 function uiContainer(content: any) {
@@ -75,19 +84,13 @@ function errorUI(message: string) {
   );
 }
 
-function resultUI(id: string, isActive: boolean) {
+function resultUI(id: string, cardData: CardData) {
   return (
     <>
-      {!isActive ? (
+      {!cardData.active ? (
         <ActivateCard cardId={id} />
       ) : (
-        <div className="min-h-screen flex items-center justify-center bg-zinc-50 dark:bg-black">
-          <div className="p-6 rounded-lg shadow-md max-w-sm w-full bg-green-500">
-            <h2 className="text-xl font-bold mb-4 text-white">Verification</h2>
-            <p className="text-white">Card ID: {id}</p>
-            <p className="text-white">Status: Active</p>
-          </div>
-        </div>
+        <CardHolderProfile id={id} initialData={cardData} />
       )}
     </>
   );
