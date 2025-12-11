@@ -22,7 +22,7 @@ const LanguageContext = createContext<LanguageContextType | undefined>(
   undefined
 );
 
-const translations = {
+const translations: Record<Language, Record<string, string>> = {
   en: {
     // Header
     "featured.projects": "Featured Projects",
@@ -78,8 +78,7 @@ const translations = {
     "active.verified": "Active & Verified",
     "inactive.account": "Inactive Account",
     // "full.access": "This member has full access to all benefits and services."
-    "full.access":
-      "Congratulations! You are a Cardly member.",
+    "full.access": "Congratulations! You are a Cardly member.",
     "contact.support.activate":
       "Please contact support to activate this account.",
     "loading.member": "Loading Member Profile...",
@@ -250,15 +249,15 @@ const translations = {
 };
 
 export function LanguageProvider({ children }: { children: ReactNode }) {
-  const [language, setLanguageState] = useState<Language>("en");
-
-  useEffect(() => {
-    // Load saved language from localStorage
-    const savedLang = localStorage.getItem("language") as Language;
-    if (savedLang && ["en", "ar", "ku"].includes(savedLang)) {
-      setLanguageState(savedLang);
+  const [language, setLanguageState] = useState<Language>(() => {
+    if (typeof window !== "undefined") {
+      const saved = localStorage.getItem("language") as Language;
+      if (saved && ["en", "ar", "ku"].includes(saved)) {
+        return saved;
+      }
     }
-  }, []);
+    return "en";
+  });
 
   const setLanguage = (lang: Language) => {
     setLanguageState(lang);
