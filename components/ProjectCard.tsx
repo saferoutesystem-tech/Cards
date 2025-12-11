@@ -1,6 +1,8 @@
+// components/ProjectCard.tsx
 import { memo } from "react";
 import Image from "next/image";
 import { LocationItem } from "../utils/types";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 interface ProjectCardProps {
   item: LocationItem;
@@ -11,6 +13,8 @@ const ProjectCard = memo(function ProjectCard({
   item,
   onClick,
 }: ProjectCardProps) {
+  const { t, dir } = useLanguage();
+
   return (
     <article
       onClick={() => onClick(item)}
@@ -34,11 +38,13 @@ const ProjectCard = memo(function ProjectCard({
           />
         )}
 
-        {/* Gradient overlay for better text legibility */}
         <div className="pointer-events-none absolute inset-0 bg-linear-to-t from-black/35 via-black/10 to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
 
-        {/* Category pills */}
-        <div className="absolute top-3 left-3 flex flex-wrap gap-1.5">
+        <div
+          className={`absolute top-3 ${
+            dir === "rtl" ? "right-3" : "left-3"
+          } flex flex-wrap gap-1.5`}
+        >
           {item.category.slice(0, 2).map((cat, index) => (
             <span
               key={index}
@@ -49,17 +55,18 @@ const ProjectCard = memo(function ProjectCard({
           ))}
           {item.category.length > 2 && (
             <span className="rounded-full bg-slate-900/80 px-2 py-0.5 text-[10px] font-medium uppercase tracking-wide text-slate-50 shadow-sm">
-              +{item.category.length - 2} more
+              +{item.category.length - 2} {t("more")}
             </span>
           )}
         </div>
 
-        {/* Featured badge */}
         {item.priority_level === 1 && (
-          <div className="absolute right-3 top-3">
+          <div
+            className={`absolute ${dir === "rtl" ? "left-3" : "right-3"} top-3`}
+          >
             <span className="inline-flex items-center gap-1 rounded-full bg-[#1b447a] px-3 py-1 text-[11px] font-semibold uppercase tracking-wide text-white shadow-md shadow-[#1b447a]/40">
               <span className="h-1 w-1 rounded-full bg-white shadow-[0_0_0_3px_rgba(250,250,249,0.4)] animate-ping" />
-              Featured
+              {t("featured")}
             </span>
           </div>
         )}
@@ -94,7 +101,7 @@ const ProjectCard = memo(function ProjectCard({
               <span className="inline-flex h-5 w-5 items-center justify-center rounded-full bg-emerald-50 text-[11px] text-emerald-600">
                 📞
               </span>
-              <span>{item.phone_number}</span>
+              <span className="ltr-only">{item.phone_number}</span>
             </button>
           )}
         </div>
@@ -105,14 +112,13 @@ const ProjectCard = memo(function ProjectCard({
           </p>
         )}
 
-        {/* Bottom meta row */}
         <div className="mt-2 flex items-center justify-between text-[11px] text-slate-400">
           <span className="inline-flex items-center gap-1">
             <span className="h-1.5 w-1.5 rounded-full bg-emerald-400" />
-            Verified partner
+            {t("verified.partner")}
           </span>
           <span className="rounded-full bg-slate-50 px-2 py-0.5 text-[10px] font-medium uppercase tracking-wide text-slate-500">
-            Tap for details
+            {t("tap.details")}
           </span>
         </div>
       </div>

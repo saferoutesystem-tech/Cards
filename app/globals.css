@@ -10,6 +10,8 @@
   --color-foreground: var(--foreground);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
+  --font-arabic: var(--font-noto-arabic);
+  --font-kufi: var(--font-noto-kufi);
 }
 
 @media (prefers-color-scheme: dark) {
@@ -33,3 +35,55 @@ body {
   scrollbar-width: none;
 }
 
+/* RTL Support */
+[dir="rtl"] {
+  direction: rtl;
+  text-align: right;
+}
+
+[dir="rtl"] .rtl\:mirror {
+  transform: scaleX(-1);
+}
+
+/* Fix for RTL layout issues */
+[dir="rtl"] .grid {
+  direction: rtl;
+}
+
+[dir="rtl"] input,
+[dir="rtl"] textarea,
+[dir="rtl"] select {
+  text-align: right;
+}
+
+/* RTL-specific adjustments for icons and elements */
+[dir="rtl"] .lucide {
+  transform: scaleX(-1);
+}
+
+/* Keep certain elements LTR even in RTL mode */
+[dir="rtl"] .ltr-only {
+  direction: ltr;
+  text-align: left;
+}
+
+/* Font support for Arabic and Kurdish - using Next.js font variables */
+[lang="ar"] {
+  font-family: var(--font-noto-arabic), system-ui, -apple-system, sans-serif;
+}
+
+[lang="ku"] {
+  font-family: var(--font-noto-kufi), var(--font-noto-arabic), system-ui,
+    -apple-system, sans-serif;
+}
+
+[lang="en"] {
+  font-family: var(--font-geist-sans), system-ui, -apple-system, sans-serif;
+}
+
+/* Ensure smooth font rendering for all languages */
+body {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}

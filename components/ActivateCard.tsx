@@ -1,11 +1,15 @@
+// components/ActivateCard.tsx
 "use client";
 
 import { useState } from "react";
 import { createClient } from "@/lib/supabase/client";
+import { useLanguage } from "@/contexts/LanguageContext";
+import LanguageSwitcher from "./LanguageSwitcher";
 import { User, Phone, MapPin, CheckCircle2, AlertCircle } from "lucide-react";
 
 export default function ActivateCard({ cardId }: { cardId: string }) {
   const supabase = createClient();
+  const { t, dir } = useLanguage();
 
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
@@ -15,28 +19,19 @@ export default function ActivateCard({ cardId }: { cardId: string }) {
   const [success, setSuccess] = useState(false);
 
   function validate() {
-    // Name: must not exceed 120 characters
     if (name.trim().length === 0 || name.trim().length > 120) {
-      setMessage(
-        "Name must not be empty and must be less than or equal to 120 characters."
-      );
+      setMessage(t("validation.name.empty"));
       return false;
     }
 
-    // Phone: Iraq mobile format: starts with 07, total 11 digits, or with +964 / 964 formats
     const iraqPhoneRegex = /^(07\d{9})$|^(9647\d{9})$|^\+9647\d{9}$/;
     if (!iraqPhoneRegex.test(phone)) {
-      setMessage(
-        "Invalid Iraq phone number format. Use: 07xxxxxxxxx or +9647xxxxxxxxx"
-      );
+      setMessage(t("validation.phone.invalid"));
       return false;
     }
 
-    // resident: must not be empty and reasonable length
     if (resident.trim().length === 0 || resident.trim().length > 200) {
-      setMessage(
-        "resident must not be empty and must be less than 200 characters."
-      );
+      setMessage(t("validation.location.empty"));
       return false;
     }
 
@@ -63,10 +58,10 @@ export default function ActivateCard({ cardId }: { cardId: string }) {
       .eq("card_id", cardId);
 
     if (error) {
-      setMessage("Activation failed. Please try again or contact support.");
+      setMessage(t("activation.failed"));
       setSuccess(false);
     } else {
-      setMessage("Card activated successfully! Redirecting...");
+      setMessage(t("activation.success"));
       setSuccess(true);
       setTimeout(() => {
         window.location.reload();
@@ -77,81 +72,97 @@ export default function ActivateCard({ cardId }: { cardId: string }) {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50 flex items-center justify-center p-4">
+    <div
+      className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50 flex items-center justify-center p-4"
+      dir={dir}
+    >
       <div className="w-full max-w-md">
-        {/* Card Container */}
+        {/* Language Switcher - Positioned at top */}
+        <div className="mb-4 flex justify-center">
+          <LanguageSwitcher />
+        </div>
+
         <div className="bg-white rounded-2xl shadow-2xl overflow-hidden">
-          {/* Header with Gradient */}
           <div className="bg-gradient-to-r from-blue-900 to-[#1b447a] p-8 text-white">
             <div className="flex items-center justify-center mb-4">
               <div className="w-16 h-16 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center">
-                <CheckCircle2 className="w-8 h-8" />
+                <CheckCircle2 className="w-8 h-8 rtl:transform rtl:-scale-x-100" />
               </div>
             </div>
             <h2 className="text-2xl font-bold text-center mb-2">
-              Activate Your Card
+              {t("activate.card")}
             </h2>
             <p className="text-blue-100 text-center text-sm">
-              Complete your profile to start enjoying exclusive discounts
+              {t("activate.subtitle")}
             </p>
           </div>
 
-          {/* Form */}
           <form onSubmit={handleSubmit} className="p-8 space-y-6">
-            {/* Full Name Input */}
             <div className="space-y-2">
               <label className="block text-sm font-semibold text-gray-700">
-                Full Name
+                {t("full.name")}
               </label>
               <div className="relative">
-                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                  <User className="h-5 w-5 text-gray-400 " />
+                <div
+                  className={`absolute inset-y-0 ${
+                    dir === "rtl" ? "right-0 pr-3" : "left-0 pl-3"
+                  } flex items-center pointer-events-none`}
+                >
+                  <User className="h-5 w-5 text-gray-400" />
                 </div>
                 <input
                   type="text"
                   value={name}
                   maxLength={120}
                   onChange={(e) => setName(e.target.value)}
-                  className="w-full pl-10 pr-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all outline-none text-black"
-                  placeholder="Enter your full name"
+                  className={`w-full ${
+                    dir === "rtl" ? "pr-10 pl-4" : "pl-10 pr-4"
+                  } py-3 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all outline-none text-black`}
+                  placeholder={t("enter.full.name")}
                   required
                 />
               </div>
               <p className="text-xs text-gray-500">
-                {name.length}/120 characters
+                {name.length}/120 {t("characters")}
               </p>
             </div>
 
-            {/* Phone Number Input */}
             <div className="space-y-2">
               <label className="block text-sm font-semibold text-gray-700">
-                Phone Number
+                {t("phone.number")}
               </label>
               <div className="relative">
-                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                <div
+                  className={`absolute inset-y-0 ${
+                    dir === "rtl" ? "right-0 pr-3" : "left-0 pl-3"
+                  } flex items-center pointer-events-none`}
+                >
                   <Phone className="h-5 w-5 text-gray-400" />
                 </div>
                 <input
                   type="tel"
                   value={phone}
                   onChange={(e) => setPhone(e.target.value)}
-                  className="w-full pl-10 pr-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all outline-none text-black"
-                  placeholder="07xxxxxxxxx"
+                  className={`w-full ${
+                    dir === "rtl" ? "pr-10 pl-4" : "pl-10 pr-4"
+                  } py-3 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all outline-none text-black`}
+                  placeholder={t("phone.placeholder")}
                   required
                 />
               </div>
-              <p className="text-xs text-gray-500">
-                Iraqi mobile number (07xxxxxxxxx or +9647xxxxxxxxx)
-              </p>
+              <p className="text-xs text-gray-500">{t("phone.hint")}</p>
             </div>
 
-            {/* Location Input */}
             <div className="space-y-2">
               <label className="block text-sm font-semibold text-gray-700">
-                Location
+                {t("location.label")}
               </label>
               <div className="relative">
-                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                <div
+                  className={`absolute inset-y-0 ${
+                    dir === "rtl" ? "right-0 pr-3" : "left-0 pl-3"
+                  } flex items-center pointer-events-none`}
+                >
                   <MapPin className="h-5 w-5 text-gray-400" />
                 </div>
                 <input
@@ -159,17 +170,16 @@ export default function ActivateCard({ cardId }: { cardId: string }) {
                   value={resident}
                   maxLength={200}
                   onChange={(e) => setResident(e.target.value)}
-                  className="w-full pl-10 pr-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all outline-none text-black"
-                  placeholder="City, neighborhood, or area"
+                  className={`w-full ${
+                    dir === "rtl" ? "pr-10 pl-4" : "pl-10 pr-4"
+                  } py-3 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all outline-none text-black`}
+                  placeholder={t("location.placeholder")}
                   required
                 />
               </div>
-              <p className="text-xs text-gray-500">
-                Where do you live? (e.g., Erbil - Dream City)
-              </p>
+              <p className="text-xs text-gray-500">{t("location.hint")}</p>
             </div>
 
-            {/* Submit Button */}
             <button
               type="submit"
               disabled={loading}
@@ -178,17 +188,16 @@ export default function ActivateCard({ cardId }: { cardId: string }) {
               {loading ? (
                 <>
                   <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin" />
-                  Activating...
+                  {/* {t("activating")} */}
                 </>
               ) : (
                 <>
-                  <CheckCircle2 className="w-5 h-5" />
-                  Activate Card
+                  <CheckCircle2 className="w-5 h-5 rtl:transform rtl:-scale-x-100" />
+                  {t("activate.button")}
                 </>
               )}
             </button>
 
-            {/* Message Display */}
             {message && (
               <div
                 className={`flex items-start gap-3 p-4 rounded-xl ${
@@ -213,29 +222,27 @@ export default function ActivateCard({ cardId }: { cardId: string }) {
             )}
           </form>
 
-          {/* Footer */}
           <div className="px-8 pb-8">
             <div className="bg-gray-50 rounded-xl p-4 border border-gray-100">
               <p className="text-xs text-gray-600 text-center">
-                By activating your card, you agree to our{" "}
+                {t("agree.text")}{" "}
                 <a href="#" className="text-blue-600 hover:underline">
-                  Terms of Service
+                  {t("terms")}
                 </a>{" "}
-                and{" "}
+                {t("and")}{" "}
                 <a href="#" className="text-blue-600 hover:underline">
-                  Privacy Policy
+                  {t("privacy")}
                 </a>
               </p>
             </div>
           </div>
         </div>
 
-        {/* Additional Info */}
         <div className="mt-6 text-center">
           <p className="text-sm text-gray-500">
-            Need help?{" "}
+            {t("need.help")}{" "}
             <a href="#" className="text-blue-600 hover:underline font-medium">
-              Contact Support
+              {t("contact.support")}
             </a>
           </p>
         </div>

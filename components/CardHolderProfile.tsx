@@ -1,3 +1,4 @@
+// components/CardHolderProfile.tsx
 "use client";
 
 import { useEffect, useState } from "react";
@@ -9,9 +10,12 @@ import {
   XCircle,
   Loader2,
   Shield,
-  Calendar,
+  Home,
 } from "lucide-react";
 import Image from "next/image";
+import { useLanguage } from "@/contexts/LanguageContext";
+import LanguageSwitcher from "./LanguageSwitcher";
+import Link from "next/link";
 
 interface CardHolder {
   name: string;
@@ -27,6 +31,7 @@ export default function CardHolderProfile({
   id: string;
   initialData?: Partial<CardHolder>;
 }) {
+  const { t, dir } = useLanguage();
   const [profile, setProfile] = useState<CardHolder | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -78,12 +83,13 @@ export default function CardHolderProfile({
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center p-4">
+      <div
+        className="min-h-screen bg-gray-50 flex items-center justify-center p-4"
+        dir={dir}
+      >
         <div className="flex flex-col items-center gap-4">
           <Loader2 className="w-12 h-12 text-[#1b447a] animate-spin" />
-          <p className="text-gray-700 font-semibold">
-            Loading Member Profile...
-          </p>
+          <p className="text-gray-700 font-semibold">{t("loading.member")}</p>
         </div>
       </div>
     );
@@ -91,7 +97,10 @@ export default function CardHolderProfile({
 
   if (error || !profile) {
     return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center p-4">
+      <div
+        className="min-h-screen bg-gray-50 flex items-center justify-center p-4"
+        dir={dir}
+      >
         <div className="bg-white rounded-lg shadow-lg p-8 max-w-md w-full border-l-4 border-red-600">
           <div className="flex items-start gap-4">
             <div className="w-12 h-12 bg-red-100 rounded-lg flex items-center justify-center flex-shrink-0">
@@ -99,10 +108,10 @@ export default function CardHolderProfile({
             </div>
             <div>
               <h2 className="text-xl font-bold text-gray-900 mb-2">
-                Access Denied
+                {t("access.denied")}
               </h2>
               <p className="text-gray-600">
-                {error || "Card verification failed. Please contact support."}
+                {error || t("verification.failed")}
               </p>
             </div>
           </div>
@@ -112,8 +121,22 @@ export default function CardHolderProfile({
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 py-8 px-4">
+    <div className="min-h-screen bg-gray-50 py-8 px-4" dir={dir}>
       <div className="max-w-4xl mx-auto">
+        {/* Top Controls - Language Switcher and Home Button */}
+        <div className="mb-6 flex justify-between items-center gap-3 flex-wrap">
+          <Link
+            href="/"
+            className="flex items-center gap-2 px-4 py-2 bg-white rounded-lg shadow-md hover:shadow-lg transition-all border border-gray-200 hover:border-[#1b447a] group"
+          >
+            <Home className="w-5 h-5 text-[#1b447a] group-hover:scale-110 transition-transform" />
+            <span className="font-medium text-gray-700 group-hover:text-[#1b447a] transition-colors">
+              {t("home")}
+            </span>
+          </Link>
+          <LanguageSwitcher />
+        </div>
+
         {/* Header with Logo */}
         <div className="bg-white rounded-t-lg shadow-sm border-b-2 border-[#1b447a] p-6">
           <div className="flex items-center justify-between flex-wrap gap-4">
@@ -128,11 +151,9 @@ export default function CardHolderProfile({
               <div className="h-12 w-px bg-gray-300"></div>
               <div>
                 <h1 className="text-2xl font-bold text-[#1b447a]">
-                  Card Holder Profile
+                  {t("card.holder.profile")}
                 </h1>
-                <p className="text-sm text-gray-600">
-                  Verified Member Information
-                </p>
+                <p className="text-sm text-gray-600">{t("verified.member")}</p>
               </div>
             </div>
             <div
@@ -143,14 +164,14 @@ export default function CardHolderProfile({
               }`}
             >
               {profile.active ? (
-                <span className="flex items-center gap-2">
-                  <CheckCircle className="w-4 h-4" />
-                  ACTIVE
+                <span className="flex items-center gap-2 rtl: flex-row-reverse">
+                  <CheckCircle className="w-4 h-4  rtl:transform rtl:scale-x-[-1]" />
+                  {t("active")}
                 </span>
               ) : (
-                <span className="flex items-center gap-2">
-                  <XCircle className="w-4 h-4" />
-                  INACTIVE
+                <span className="flex items-center gap-2 rtl: flex-row-reverse">
+                  <CheckCircle className="w-4 h-4  rtl:transform rtl:scale-x-[-1]" />
+                  {t("inactive")}
                 </span>
               )}
             </div>
@@ -164,11 +185,14 @@ export default function CardHolderProfile({
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-xs uppercase tracking-wider opacity-90 mb-1">
-                  Member ID
+                  {t("member.id")}
                 </p>
-                <p className="text-xl font-mono font-bold">{id}</p>
+                <p className="text-xl font-mono font-bold ltr-only">{id}</p>
               </div>
-              <Shield className="w-10 h-10 opacity-30" />
+              {/* <Shield className="w-10 h-10 opacity-30" /> */}
+              <p className="text-xs uppercase tracking-wider mb-1">
+                {t("full.access")}
+              </p>
             </div>
           </div>
 
@@ -182,7 +206,7 @@ export default function CardHolderProfile({
                 </div>
                 <div className="flex-1">
                   <p className="text-xs uppercase tracking-wider text-gray-500 font-semibold mb-2">
-                    Full Name
+                    {t("full.name")}
                   </p>
                   <h2 className="text-3xl font-bold text-gray-900">
                     {profile.name}
@@ -201,11 +225,11 @@ export default function CardHolderProfile({
                   </div>
                   <div className="flex-1 min-w-0">
                     <p className="text-xs uppercase tracking-wider text-gray-500 font-semibold mb-2">
-                      Contact Number
+                      {t("contact.number")}
                     </p>
                     <a
                       href={`tel:${profile.phone}`}
-                      className="text-lg font-bold text-[#1b447a] hover:underline break-all"
+                      className="text-lg font-bold text-[#1b447a] hover:underline break-all ltr-only"
                     >
                       {profile.phone}
                     </a>
@@ -221,7 +245,7 @@ export default function CardHolderProfile({
                   </div>
                   <div className="flex-1 min-w-0">
                     <p className="text-xs uppercase tracking-wider text-gray-500 font-semibold mb-2">
-                      Residence
+                      {t("residence")}
                     </p>
                     <p className="text-lg font-bold text-gray-900 break-words">
                       {profile.resident}
@@ -232,7 +256,11 @@ export default function CardHolderProfile({
             </div>
 
             {/* Status Section */}
-            <div className="bg-gray-50 border-l-4 border-[#1b447a] rounded-lg p-6">
+            <div
+              className={`bg-gray-50 rounded-lg p-6 ${
+                dir === "rtl" ? "border-r-4" : "border-l-4"
+              } border-[#1b447a]`}
+            >
               <div className="flex items-start gap-4">
                 <div
                   className={`w-12 h-12 rounded-lg flex items-center justify-center flex-shrink-0 ${
@@ -240,59 +268,49 @@ export default function CardHolderProfile({
                   }`}
                 >
                   {profile.active ? (
-                    <CheckCircle className="w-6 h-6 text-green-600" />
+                    <CheckCircle className="w-6 h-6 text-green-600 rtl:transform rtl:scale-x-[-1]" />
                   ) : (
                     <XCircle className="w-6 h-6 text-gray-600" />
                   )}
                 </div>
                 <div className="flex-1">
                   <p className="text-xs uppercase tracking-wider text-gray-500 font-semibold mb-1">
-                    Account Status
+                    {t("account.status")}
                   </p>
                   <p
                     className={`text-xl font-bold mb-2 ${
                       profile.active ? "text-green-600" : "text-gray-600"
                     }`}
                   >
-                    {profile.active ? "Active & Verified" : "Inactive Account"}
+                    {profile.active
+                      ? t("active.verified")
+                      : t("inactive.account")}
                   </p>
                   <p className="text-sm text-gray-600">
                     {profile.active
-                      ? "This member has full access to all benefits and services."
-                      : "Please contact support to activate this account."}
+                      ? t("full.access")
+                      : t("contact.support.activate")}
                   </p>
                 </div>
               </div>
             </div>
           </div>
-
-          {/* Action Buttons */}
-          {/* <div className="bg-gray-100 px-8 py-6 border-t border-gray-200">
-            <div className="flex flex-col sm:flex-row gap-4">
-              <button
-                onClick={() => (window.location.href = `tel:${profile.phone}`)}
-                className="flex-1 bg-[#1b447a] text-white font-bold py-4 px-6 rounded-lg hover:bg-[#152f54] transition-colors flex items-center justify-center gap-2 shadow-md"
-              >
-                <Phone className="w-5 h-5" />
-                Call Member
-              </button>
-              <button
-                onClick={() => window.print()}
-                className="flex-1 bg-white text-[#1b447a] font-bold py-4 px-6 rounded-lg hover:bg-gray-50 transition-colors border-2 border-[#1b447a] flex items-center justify-center gap-2"
-              >
-                <Calendar className="w-5 h-5" />
-                Print Profile
-              </button>
-            </div>
-          </div> */}
         </div>
 
         {/* Footer */}
         <div className="mt-6 text-center">
           <p className="text-sm text-gray-500">
             <span className="inline-flex items-center gap-2">
+              {t("lostCard")}
+            </span>
+          </p>
+        </div>
+        {/* Footer */}
+        <div className="mt-6 text-center">
+          <p className="text-sm text-gray-500">
+            <span className="inline-flex items-center gap-2">
               <Shield className="w-4 h-4" />
-              Secured & Verified • Cardly Business Services
+              {t("secured.verified")}
             </span>
           </p>
         </div>

@@ -1,12 +1,16 @@
+// components/FeaturedProjects.tsx
 "use client";
 import { useState, useCallback, useRef, useEffect } from "react";
-import { createClient } from "@/lib/supabase/client";
+import { createMultiLangClient } from "@/lib/supabase/multiLangClient";
+import { useLanguage } from "@/contexts/LanguageContext";
 import { LocationItem } from "../utils/types";
 import ProjectCard from "./ProjectCard";
 import ProjectModal from "./ProjectModal";
+import LanguageSwitcher from "./LanguageSwitcher";
 import Image from "next/image";
 
 export default function FeaturedProjects() {
+  const { language, t, dir } = useLanguage();
   const [projects, setProjects] = useState<LocationItem[]>([]);
   const [visibleCount, setVisibleCount] = useState(9);
   const [selectedProject, setSelectedProject] = useState<LocationItem | null>(
@@ -16,12 +20,12 @@ export default function FeaturedProjects() {
   const [error, setError] = useState<string | null>(null);
   const observerTarget = useRef<HTMLDivElement>(null);
 
-  // Fetch projects from Supabase - now inside useEffect to ensure client-side only
+  // Fetch projects when language changes
   useEffect(() => {
     async function fetchProjects() {
       try {
         setLoading(true);
-        const supabase = createClient();
+        const supabase = createMultiLangClient(language);
         const { data, error } = await supabase
           .from("projects")
           .select(
@@ -44,7 +48,7 @@ export default function FeaturedProjects() {
     }
 
     fetchProjects();
-  }, []);
+  }, [language]);
 
   const handleCardClick = useCallback((item: LocationItem) => {
     setSelectedProject(item);
@@ -74,10 +78,14 @@ export default function FeaturedProjects() {
   // Loading state
   if (loading) {
     return (
-      <section className="min-h-screen bg-gray-50 py-16 px-4 sm:px-6 lg:px-8">
+      <section
+        className="min-h-screen bg-gray-50 py-16 px-4 sm:px-6 lg:px-8"
+        dir={dir}
+      >
         <div className="max-w-7xl mx-auto">
           <div className="flex justify-center items-center h-96">
             <div className="w-12 h-12 border-4 border-blue-200 border-t-blue-600 rounded-full animate-spin"></div>
+            {/* <p className="ml-4 text-gray-600">{t("loading")}</p> */}
           </div>
         </div>
       </section>
@@ -87,11 +95,14 @@ export default function FeaturedProjects() {
   // Error state
   if (error) {
     return (
-      <section className="min-h-screen bg-gray-50 py-16 px-4 sm:px-6 lg:px-8">
+      <section
+        className="min-h-screen bg-gray-50 py-16 px-4 sm:px-6 lg:px-8"
+        dir={dir}
+      >
         <div className="max-w-7xl mx-auto">
           <div className="bg-red-50 border border-red-200 rounded-lg p-6 text-center">
             <h2 className="text-xl font-semibold text-red-800 mb-2">
-              Error Loading Projects
+              {t("error.loading")}
             </h2>
             <p className="text-red-600">{error}</p>
           </div>
@@ -103,13 +114,16 @@ export default function FeaturedProjects() {
   // Empty state
   if (projects.length === 0) {
     return (
-      <section className="min-h-screen bg-gray-50 py-16 px-4 sm:px-6 lg:px-8">
+      <section
+        className="min-h-screen bg-gray-50 py-16 px-4 sm:px-6 lg:px-8"
+        dir={dir}
+      >
         <div className="max-w-7xl mx-auto">
           <div className="text-center py-12">
             <h2 className="text-2xl font-semibold text-gray-700 mb-2">
-              No Projects Found
+              {t("no.projects")}
             </h2>
-            <p className="text-gray-500">Check back later for new projects.</p>
+            <p className="text-gray-500">{t("check.back")}</p>
           </div>
         </div>
       </section>
@@ -117,17 +131,26 @@ export default function FeaturedProjects() {
   }
 
   return (
-    <section className="min-h-screen bg-gray-50 pb-16 px-4 sm:px-6 lg:px-8">
+    <section
+      className="min-h-screen bg-gray-50 pb-16 px-4 sm:px-6 lg:px-8"
+      dir={dir}
+    >
       <div className="max-w-7xl mx-auto">
-        <Image
-          src={"/logo.png"}
-          width={200}
-          height={100}
-          className="mx-auto"  
-          alt="Cardly"
-          sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-          loading="lazy"
-        />
+        <div className="flex justify-between items-center mb-8">
+          <Image
+            src={"/logoAndSlogan.png"}
+            width={200}
+            height={100}
+            alt="Cardly"
+            sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+            loading="lazy"
+          />
+          <LanguageSwitcher />
+        </div>
+
+        {/* <h1 className="text-3xl font-bold text-center mb-8 text-gray-800">
+          {t("featured.projects")}
+        </h1> */}
 
         <div className="grid gap-8 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
           {projects.slice(0, visibleCount).map((item) => (
