@@ -24,6 +24,23 @@ const LanguageContext = createContext<LanguageContextType | undefined>(
 
 const translations: Record<Language, Record<string, string>> = {
   en: {
+    // Navigation
+    home: "Home",
+
+    // Search and Filters
+    "search.placeholder": "Search by name, location, or category...",
+    filters: "Filters",
+    "clear.all": "Clear All",
+    "filter.cities": "Cities",
+    "filter.categories": "Categories",
+    "filter.discount": "Discount Range",
+    "filter.priority": "Priority",
+    "priority.featured": "Featured",
+    "priority.level": "Level",
+    "results.found": "results found",
+    "no.results": "No results found",
+    "try.different": "Try adjusting your search or filters",
+
     // Header
     "featured.projects": "Featured Projects",
     loading: "Loading...",
@@ -36,8 +53,6 @@ const translations: Record<Language, Record<string, string>> = {
     "tap.details": "Tap for details",
     featured: "Featured",
     more: "more",
-    home: "Home",
-    lostCard: "In case of lost card keep your ID safe",
 
     // Modal
     location: "Location",
@@ -66,25 +81,57 @@ const translations: Record<Language, Record<string, string>> = {
     "agree.text": "By activating your card, you agree to our",
     and: "and",
 
+    // Upload Photo
+    "upload.photo": "Upload Photo",
+    "upload.instructions": "Click on the image to upload a new photo",
+    "upload.requirements": "Max 5MB • JPG, PNG, GIF",
+    "upload.error.type": "Please select an image file",
+    "upload.error.size": "Image must be less than 5MB",
+    "upload.error.generic": "Upload failed. Please try again.",
+    expires: "Expires",
+
     // Profile
     "card.holder.profile": "Card Holder Profile",
     "verified.member": "Verified Member Information",
     active: "ACTIVE",
     inactive: "INACTIVE",
+    expired: "EXPIRED",
     "member.id": "Member ID",
     "contact.number": "Contact Number",
     residence: "Residence",
     "account.status": "Account Status",
     "active.verified": "Active & Verified",
     "inactive.account": "Inactive Account",
-    // "full.access": "This member has full access to all benefits and services."
-    "full.access": "Congratulations! You are a Cardly member.",
+    "card.expired": "Card Expired",
+    "card.expired.message":
+      "This card has expired. Please contact support to renew.",
+    "full.access": "This member has full access to all benefits and services.",
     "contact.support.activate":
       "Please contact support to activate this account.",
+    "activated.on": "Activated On",
+    "expires.on": "Expires On",
+    "expired.on": "Expired On",
+    "expiring.soon": "Expiring Soon",
+    "days.remaining": "days remaining",
+    "expires.today": "Expires today",
     "loading.member": "Loading Member Profile...",
     "access.denied": "Access Denied",
     "verification.failed": "Card verification failed. Please contact support.",
     "secured.verified": "Secured & Verified • Cardly Business Services",
+
+    // Expired Card Screen
+    "card.expired.title": "Card Expired",
+    "card.expired.subtitle": "This discount card has expired and needs renewal",
+    "card.id": "Card ID",
+    "renewal.required": "Renewal Required",
+    "expired.card.message":
+      "Your discount card has expired. To continue enjoying exclusive benefits and discounts, please contact our support team to renew your membership.",
+    "contact.support.renewal": "Contact Support to Renew",
+    "call.support": "Call Support",
+    "email.support": "Email Support",
+    "renewal.process.info":
+      "Our support team will help you renew your card quickly. The renewal process typically takes 1-2 business days.",
+    questions: "Have questions?",
 
     // Validation messages
     "validation.name.empty":
@@ -98,6 +145,23 @@ const translations: Record<Language, Record<string, string>> = {
     "activation.success": "Card activated successfully! Redirecting...",
   },
   ar: {
+    // Navigation
+    home: "الرئيسية",
+
+    // Search and Filters
+    "search.placeholder": "البحث بالاسم أو الموقع أو الفئة...",
+    filters: "التصفية",
+    "clear.all": "مسح الكل",
+    "filter.cities": "المدن",
+    "filter.categories": "الفئات",
+    "filter.discount": "نطاق الخصم",
+    "filter.priority": "الأولوية",
+    "priority.featured": "مميز",
+    "priority.level": "المستوى",
+    "results.found": "نتيجة",
+    "no.results": "لا توجد نتائج",
+    "try.different": "حاول تعديل البحث أو التصفية",
+
     // Header
     "featured.projects": "المشاريع المميزة",
     loading: "جاري التحميل...",
@@ -110,8 +174,6 @@ const translations: Record<Language, Record<string, string>> = {
     "tap.details": "اضغط للتفاصيل",
     featured: "مميز",
     more: "المزيد",
-    home: "الصفحة الرئيسية",
-    lostCard: "في حال فقدان البطاقة احفظ ال ID الخاص بك",
 
     // Modal
     location: "الموقع",
@@ -140,24 +202,56 @@ const translations: Record<Language, Record<string, string>> = {
     "agree.text": "بتفعيل بطاقتك، فإنك توافق على",
     and: "و",
 
+    // Upload Photo
+    "upload.photo": "رفع صورة",
+    "upload.instructions": "انقر على الصورة لرفع صورة جديدة",
+    "upload.requirements": "الحد الأقصى 5 ميجابايت • JPG، PNG، GIF",
+    "upload.error.type": "يرجى اختيار ملف صورة",
+    "upload.error.size": "يجب أن تكون الصورة أقل من 5 ميجابايت",
+    "upload.error.generic": "فشل الرفع. يرجى المحاولة مرة أخرى.",
+    expires: "تنتهي صلاحيتها",
+
     // Profile
     "card.holder.profile": "ملف حامل البطاقة",
     "verified.member": "معلومات العضو الموثق",
     active: "نشط",
     inactive: "غير نشط",
+    expired: "منتهي الصلاحية",
     "member.id": "معرف العضو",
     "contact.number": "رقم الاتصال",
     residence: "السكن",
     "account.status": "حالة الحساب",
     "active.verified": "نشط وموثق",
     "inactive.account": "حساب غير نشط",
-    // "full.access": "هذا العضو لديه وصول كامل إلى جميع المزايا والخدمات.",
-    "full.access": "تهانينا! أنت عضو في كاردلي.",
+    "card.expired": "البطاقة منتهية الصلاحية",
+    "card.expired.message":
+      "انتهت صلاحية هذه البطاقة. يرجى الاتصال بالدعم للتجديد.",
+    "full.access": "هذا العضو لديه وصول كامل إلى جميع المزايا والخدمات.",
     "contact.support.activate": "يرجى الاتصال بالدعم لتفعيل هذا الحساب.",
+    "activated.on": "تم التفعيل في",
+    "expires.on": "تنتهي في",
+    "expired.on": "انتهت في",
+    "expiring.soon": "تنتهي قريباً",
+    "days.remaining": "يوم متبقي",
+    "expires.today": "تنتهي اليوم",
     "loading.member": "جاري تحميل ملف العضو...",
     "access.denied": "تم رفض الوصول",
     "verification.failed": "فشل التحقق من البطاقة. يرجى الاتصال بالدعم.",
     "secured.verified": "آمن وموثق • خدمات كاردلي للأعمال",
+
+    // Expired Card Screen
+    "card.expired.title": "البطاقة منتهية الصلاحية",
+    "card.expired.subtitle": "انتهت صلاحية بطاقة الخصم هذه وتحتاج إلى تجديد",
+    "card.id": "رقم البطاقة",
+    "renewal.required": "التجديد مطلوب",
+    "expired.card.message":
+      "انتهت صلاحية بطاقة الخصم الخاصة بك. للاستمرار في الاستمتاع بالمزايا والخصومات الحصرية، يرجى الاتصال بفريق الدعم لتجديد عضويتك.",
+    "contact.support.renewal": "اتصل بالدعم للتجديد",
+    "call.support": "اتصل بالدعم",
+    "email.support": "البريد الإلكتروني للدعم",
+    "renewal.process.info":
+      "سيساعدك فريق الدعم لدينا على تجديد بطاقتك بسرعة. تستغرق عملية التجديد عادةً من يوم إلى يومي عمل.",
+    questions: "لديك أسئلة؟",
 
     // Validation messages
     "validation.name.empty":
@@ -171,6 +265,23 @@ const translations: Record<Language, Record<string, string>> = {
     "activation.success": "تم تفعيل البطاقة بنجاح! جاري إعادة التوجيه...",
   },
   ku: {
+    // Navigation
+    home: "سەرەتا",
+
+    // Search and Filters
+    "search.placeholder": "گەڕان بە ناو، شوێن، یان جۆر...",
+    filters: "پاڵاوتن",
+    "clear.all": "پاککردنەوەی هەموو",
+    "filter.cities": "شارەکان",
+    "filter.categories": "جۆرەکان",
+    "filter.discount": "بواری داشکاندن",
+    "filter.priority": "پێشینە",
+    "priority.featured": "تایبەت",
+    "priority.level": "ئاست",
+    "results.found": "ئەنجام دۆزرایەوە",
+    "no.results": "هیچ ئەنجامێک نەدۆزرایەوە",
+    "try.different": "هەوڵبدە گەڕان یان پاڵاوتن بگۆڕیت",
+
     // Header
     "featured.projects": "پرۆژە تایبەتەکان",
     loading: "بارکردن...",
@@ -183,8 +294,6 @@ const translations: Record<Language, Record<string, string>> = {
     "tap.details": "دەست لێبدە بۆ وردەکاری",
     featured: "تایبەت",
     more: "زیاتر",
-    home: "پەڕەی سەرەکی",
-    lostCard: "لە هەر حالەتێکی ون بوون id ناو بپارەێزد",
 
     // Modal
     location: "شوێن",
@@ -213,27 +322,61 @@ const translations: Record<Language, Record<string, string>> = {
     "agree.text": "بە چالاککردنی کارتەکەت، ڕازی دەبیت بە",
     and: "و",
 
+    // Upload Photo
+    "upload.photo": "وەرگرتنی وێنە",
+    "upload.instructions": "کلیک لەسەر وێنە بکە بۆ وەرگرتنی وێنەیەکی نوێ",
+    "upload.requirements": "زۆرترین قەبارە 5MB • JPG، PNG، GIF",
+    "upload.error.type": "تکایە فایلێکی وێنە هەڵبژێرە",
+    "upload.error.size": "وێنەکە دەبێت کەمتر بێت لە 5MB",
+    "upload.error.generic": "وەرگرتن سەرکەوتوو نەبوو. تکایە دووبارە هەوڵبدە.",
+    expires: "دەرچوون",
+
     // Profile
-    "card.holder.profile": "پرۆفایلی خاوەن داشکاندن",
+    "card.holder.profile": "پرۆفایلی هەڵگری کارت",
     "verified.member": "زانیاری ئەندامی پشتڕاستکراو",
     active: "چالاک",
     inactive: "ناچالاک",
+    expired: "بەسەرچووە",
     "member.id": "ناسنامەی ئەندام",
     "contact.number": "ژمارەی پەیوەندی",
     residence: "نیشتەجێبوون",
     "account.status": "دۆخی هەژمار",
     "active.verified": "چالاک و پشتڕاستکراو",
     "inactive.account": "هەژماری ناچالاک",
-    "full.access": "پیرۆزە بوویت بە ئەندامی کاردلی",
-    // "full.access": "ئەم ئەندامە دەستگەیشتنی تەواوی هەیە بۆ هەموو سوود و خزمەتگوزارییەکان.",
+    "card.expired": "کارت بەسەرچووە",
+    "card.expired.message":
+      "ئەم کارتە بەسەرچووە. تکایە پەیوەندی بە پشتگیری بکە بۆ نوێکردنەوە.",
+    "full.access":
+      "ئەم ئەندامە دەستگەیشتنی تەواوی هەیە بۆ هەموو سوود و خزمەتگوزارییەکان.",
     "contact.support.activate":
       "تکایە پەیوەندی بە پشتگیری بکە بۆ چالاککردنی ئەم هەژمارە.",
+    "activated.on": "چالاککرا لە",
+    "expires.on": "بەسەردەچێت لە",
+    "expired.on": "بەسەرچوو لە",
+    "expiring.soon": "بەم زووانە بەسەردەچێت",
+    "days.remaining": "ڕۆژ ماوە",
+    "expires.today": "ئەمڕۆ بەسەردەچێت",
     "loading.member": "بارکردنی پرۆفایلی ئەندام...",
     "access.denied": "دەستگەیشتن ڕەتکرایەوە",
     "verification.failed":
       "پشتڕاستکردنەوەی کارت سەرکەوتوو نەبوو. تکایە پەیوەندی بە پشتگیری بکە.",
     "secured.verified":
       "پارێزراو و پشتڕاستکراو • خزمەتگوزارییەکانی بازرگانی کاردلی",
+
+    // Expired Card Screen
+    "card.expired.title": "کارت بەسەرچووە",
+    "card.expired.subtitle":
+      "ئەم کارتە داشکاندنە بەسەرچووە و پێویستی بە نوێکردنەوەیە",
+    "card.id": "ژمارەی کارت",
+    "renewal.required": "نوێکردنەوە پێویستە",
+    "expired.card.message":
+      "کارتی داشکاندنەکەت بەسەرچووە. بۆ بەردەوامبوون لە چێژوەرگرتن لە سوود و داشکاندنە تایبەتەکان، تکایە پەیوەندی بە تیمی پشتگیریمان بکە بۆ نوێکردنەوەی ئەندامێتیت.",
+    "contact.support.renewal": "پەیوەندی بە پشتگیری بکە بۆ نوێکردنەوە",
+    "call.support": "پەیوەندی بە پشتگیری",
+    "email.support": "ئیمەیڵی پشتگیری",
+    "renewal.process.info":
+      "تیمی پشتگیریمان یارمەتیت دەدات بە خێرایی کارتەکەت نوێ بکەیتەوە. پرۆسەی نوێکردنەوە بە شێوەیەکی ئاسایی ١-٢ ڕۆژی کار دەخایەنێت.",
+    questions: "پرسیارت هەیە؟",
 
     // Validation messages
     "validation.name.empty":

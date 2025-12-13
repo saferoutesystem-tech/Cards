@@ -5,12 +5,15 @@ import { useEffect, useState } from "react";
 import { createBrowserClient } from "@supabase/ssr";
 import ActivateCard from "@/components/ActivateCard";
 import CardHolderProfile from "@/components/CardHolderProfile";
+import ExpiredCardScreen from "@/components/ExpiredCardScreen";
 
 interface CardData {
   active: boolean;
   name?: string;
   phone?: string;
   resident?: string;
+  activated_at?: string;
+  expires_at?: string;
 }
 
 export default function VerifyPage({
@@ -38,10 +41,10 @@ export default function VerifyPage({
         process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
       );
 
-      // Fetch all data including profile fields
+      // Fetch all data including expiry fields
       const { data, error } = await supabase
         .from("discount_cards")
-        .select("active, name, phone, resident")
+        .select("active, name, phone, resident, activated_at, expires_at")
         .eq("card_id", id)
         .single();
 
@@ -60,7 +63,12 @@ export default function VerifyPage({
   if (loading) return uiContainer(<p className="text-white">Loading…</p>);
   if (error) return errorUI(error);
 
-  return resultUI(id, cardData!);
+  // Check if card is expired
+  const isExpired = cardData?.expires_at 
+    ? new Date(cardData.expires_at) < new Date() 
+    : false;
+
+  return resultUI(id, cardData!, isExpired);
 }
 
 function uiContainer(content: any) {
@@ -84,14 +92,17 @@ function errorUI(message: string) {
   );
 }
 
-function resultUI(id: string, cardData: CardData) {
-  return (
-    <>
-      {!cardData.active ? (
-        <ActivateCard cardId={id} />
-      ) : (
-        <CardHolderProfile id={id} initialData={cardData} />
-      )}
-    </>
-  );
+function resultUI(id: string, cardData: CardData, isExpired: boolean) {
+  // If card is expired, show expired screen (cannot reactivate)
+  if (isExpired) {
+    return <ExpiredCardScreen cardId={id} expiryDate={cardData.expires_at} />;
+  }
+
+  // If card is not active yet, show activation form
+  if (!cardData.active) {
+    return <ActivateCard cardId={id} />;
+  }
+
+  // If card is active and not expired, show profile
+  return <CardHolderProfile id={id} initialData={cardData} />;
 }

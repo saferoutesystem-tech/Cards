@@ -60,6 +60,23 @@ const ProjectCard = memo(function ProjectCard({
           )}
         </div>
 
+        {/* Discount Badge */}
+        {item.discount_amount && item.discount_amount > 0 && (
+          <div
+            className={`absolute bottom-3 ${
+              dir === "rtl" ? "left-3" : "right-3"
+            }`}
+          >
+            <div className="bg-gradient-to-br from-green-500 to-emerald-600 text-white px-3 py-1.5 rounded-lg shadow-lg">
+              <div className="text-xs font-medium opacity-90">UP TO</div>
+              <div className="text-2xl font-bold leading-none">
+                {item.discount_amount}%
+              </div>
+              <div className="text-xs font-medium opacity-90">OFF</div>
+            </div>
+          </div>
+        )}
+
         {item.priority_level === 1 && (
           <div
             className={`absolute ${dir === "rtl" ? "left-3" : "right-3"} top-3`}
