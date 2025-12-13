@@ -64,8 +64,8 @@ export default function VerifyPage({
   if (error) return errorUI(error);
 
   // Check if card is expired
-  const isExpired = cardData?.expires_at 
-    ? new Date(cardData.expires_at) < new Date() 
+  const isExpired = cardData?.expires_at
+    ? new Date(cardData.expires_at) < new Date()
     : false;
 
   return resultUI(id, cardData!, isExpired);
@@ -95,7 +95,7 @@ function errorUI(message: string) {
 function resultUI(id: string, cardData: CardData, isExpired: boolean) {
   // If card is expired, show expired screen (cannot reactivate)
   if (isExpired) {
-    return <ExpiredCardScreen cardId={id} expiryDate={cardData.expires_at} />;
+    return <ExpiredCardScreen cardId={id} expiresAt={cardData.expires_at} />;
   }
 
   // If card is not active yet, show activation form
